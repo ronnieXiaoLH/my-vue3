@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+  <script>
+    let {ref, computed, effect} = VueReactivity
+    let state = ref(0)
+    let myState = computed(() => {
+      console.log('run')
+      return state.value + 10
+    })
+    effect(() => {
+      console.log('render')
+      app.innerHTML = myState.value
+    })
+    console.log(1, myState.value)
+    console.log(2, myState.value)
+    console.log(3, myState.value)
+    setTimeout(() => {
+      state.value = 1
+      console.log(1, myState.value)
+      console.log(2, myState.value)
+      console.log(3, myState.value)
+    }, 1000);
+    // console.log(myState)
+  </script>
+</body>
+</html>

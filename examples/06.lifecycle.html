@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+  <script src="../node_modules/@vue/runtime-dom/dist/runtime-dom.global.js"></script>
+  <script>
+    const {ref, reactive} = VueReactivity
+    const {createApp, h, getCurrentInstance, onBeforeMount, onMounted} = VueRuntimeDOM
+    const Child = {
+      setup() {
+        onBeforeMount(() => {
+          console.log('child onBeforeMount 1')
+        })
+        onBeforeMount(() => {
+          console.log('child onBeforeMount 2')
+        })
+        onMounted(() => {
+          console.log('child onMounted')
+        })
+        const instance = getCurrentInstance()
+        console.log('instance', instance)
+        return () => h('p', 'child')
+      }
+    }
+    const App = {
+      components: {
+        Child
+      },
+      setup() {
+        onBeforeMount(() => {
+          console.log('onBeforeMount 1')
+        })
+        onBeforeMount(() => {
+          console.log('onBeforeMount 2')
+        })
+        onMounted(() => {
+          console.log('onMounted')
+        })
+        const instance = getCurrentInstance()
+        console.log('instance', instance)
+        const state = reactive({name: 'zf', age: 12})
+        setTimeout(() => {
+          state.name = 'xlh'
+        })
+        return () => h('div', state.name)
+      }
+    }
+    createApp(App, {}).mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">123</div>
+  <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+  <script src="../node_modules/@vue/runtime-dom/dist/runtime-dom.global.js"></script>
+  <script>
+    console.log(VueRuntimeDOM)
+    const {ref, reactive} = VueReactivity
+    const {createApp, h} = VueRuntimeDOM
+    const App = {
+      setup (props, context) {
+        console.log('setup', props, context)
+        const flag = ref(false)
+        const fn = () => {
+          flag.value = !flag.value
+        }
+        return () => {
+          return flag.value ? h('div', {style: {color:'red'}, onClick: fn}, 'zf') : h('p', {style: {color:'blue'}, onClick: fn}, 'xlh')
+        }
+      },
+      // render (proxy) {
+      //   // console.log('proxy', proxy, proxy.state, proxy.name, proxy.age)
+      //   // return h('div', { style: {color:'red', background: 'pink'}, onClick: () => {console.log('a')} }, [h('p',{class: 'item1'}, 'hello world'), h('p', 'xlh')])
+      //   const add = () => {
+      //     proxy.age++
+      //     console.log(proxy.age)
+      //   }
+      //   return h('div', {onClick: add}, `name:${proxy.name}, age:${proxy.age}`)
+      // }
+    }
+    const app = createApp(App)
+    app.mount('#app')
+  </script>
+</body>
+</html>
